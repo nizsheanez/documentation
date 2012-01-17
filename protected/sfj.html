@@ -1,0 +1,67 @@
+<div class="form">
+    <form enctype="multipart/form-data" action="" method="post">
+        <dl class="inline">
+            <dd>
+                <div class="dropdownlist">
+                    <select>
+                        <option value="">Вид объекта</option>
+                        <option value="1">Жилой</option>
+                        <option value="2">Не жилой</option>
+                    </select>
+                </div>
+            </dd>
+        </dl>
+        <dl class="inline">
+            <dd>
+                <input type="text" value="Обслуживающая компания" />
+            </dd>
+        </dl>
+        <br/>
+        <dl class="inline">
+            <dd>
+                <div class="dropdownlist">
+                    <select>
+                        <option value="">Расположение</option>
+                        <option value="1">Москва</option>
+                        <option value="2">Московская Область</option>
+                    </select>
+                </div>
+            </dd>
+        </dl>
+        <dl class="inline">
+            <dd>
+                <input type="text" value="Расстояние до МКАД, км"/>
+            </dd>
+        </dl>
+        <dl>
+            <dd>
+                <div class="attach">
+                    <input class="file_fake" type="text" readonly="readonly" value="План помещения"/>
+                    <span class="file" title="Выбрать файл">
+                        <input type="hidden" value="" />
+                        <input type="file"/>
+                        <input type="button" class="file_select_btn" value=""/>
+                    </span>
+                </div>
+            </dd>
+        </dl>
+        <dl>
+            <dd>
+                <input type="text" value="Общий метраж"/>
+            </dd>
+        </dl>
+        <dl>
+            <dd>
+                <textarea>Комментарий</textarea>
+                <span class="counter">Осталось 20 символов</span>
+            </dd>
+        </dl>
+        <dl>
+            <dd>
+                <div class="buttons">
+                    <input value="Отправить" type="submit"/>
+                </div>
+            </dd>
+        </dl>
+    </form>
+</div>

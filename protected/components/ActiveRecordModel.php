@@ -1,0 +1,331 @@
+<?php
+
+abstract class ActiveRecordModel extends CActiveRecord
+{
+    public static $meta_tags = false;
+
+    const PATTERN_RULAT_ALPHA_SPACES = '/^[а-яa-z ]+$/ui';
+    const PATTERN_RULAT_ALPHA        = '/^[а-яa-z]+$/ui';
+    const PATTERN_LAT_ALPHA          = '/^[A-Za-z]+$/ui';
+    const PATTERN_PHONE              = '/^\+[1-9]-[0-9]+-[0-9]{7}$/';
+
+
+    abstract public function name();
+
+
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+
+    public function behaviors()
+    {
+        return array(
+            'LangCondition' => array(
+                'class' => 'application.components.activeRecordBehaviors.LangConditionBehavior'
+            ),
+            'NullValue' => array(
+                'class' => 'application.components.activeRecordBehaviors.NullValueBehavior'
+            ),
+            'UserForeignKey' => array(
+                'class' => 'application.components.activeRecordBehaviors.UserForeignKeyBehavior'
+            ),
+            'UploadFile' => array(
+                'class' => 'application.components.activeRecordBehaviors.UploadFileBehavior'
+            ),
+            'DateFormat' => array(
+                'class' => 'application.components.activeRecordBehaviors.DateFormatBehavior'
+            ),
+            'Timestamp' => array(
+                'class' => 'application.components.activeRecordBehaviors.TimestampBehavior'
+            )
+        );
+    }
+
+
+    public function attributeLabels()
+    {
+        $meta = $this->meta();
+
+        $labels = array();
+
+        foreach ($meta as $field_data)
+        {
+            $labels[$field_data["Field"]] = Yii::t('main', $field_data["Comment"]);
+        }
+
+        return $labels;
+    }
+
+
+    /*VALIDATORS________________________________________________________________________________*/
+    public function city($attr) 
+    {	
+    	$name = trim($this->$attr);
+    	
+    	if (!empty($name)) 
+    	{
+    		if (!is_numeric($name)) 
+    		{
+		    	$city = City::model()->findByAttributes(array('name' => $name));
+		    	if ($city) 
+		    	{
+		    		$this->$attr = $city->id;	
+		    	}   
+		    	else 
+		    	{
+		    		$this->addError($attr, Yii::t('main', 'Город не найден'));
+		    	} 	    		
+    		}
+    	}
+    	else 
+    	{
+    		$this->$attr = null;	
+    	}
+    }
+        
+    
+    public function phone($attr)
+    {
+        if (!empty($this->$attr))
+        {
+            if (!preg_match(self::PATTERN_PHONE, $this->$attr))
+            {
+                $this->addError($attr, Yii::t('main', 'Неверный формат! Пример: +7-903-5492969'));
+            }
+        }
+    }
+	
+    
+    public function latAlpha($attr)
+    {
+        if (!empty($this->$attr))
+        {
+            if (!preg_match(self::PATTERN_LAT_ALPHA, $this->$attr))
+            {
+                $this->addError($attr, Yii::t('main', 'Только латинский алфавит'));
+            }
+        }    
+    }
+    
+	
+    public function ruLatAlpha($attr)
+    {
+        if (!empty($this->$attr))
+        {
+            if (!preg_match(self::PATTERN_RULAT_ALPHA, $this->$attr))
+            {
+                $this->addError($attr, Yii::t('main', 'Только русский или латинский алфавит'));
+            }
+        }
+    }
+
+
+    public function ruLatAlphaSpaces($attr)
+    {
+        if (!empty($this->$attr))
+        {
+            if (!preg_match(self::PATTERN_RULAT_ALPHA_SPACES, $this->$attr))
+            {
+                $this->addError($attr, Yii::t('main', 'Только русский или латинский алфавит с учетом пробелов'));
+            }
+        }
+    }
+    /*___________________________________________________________________________________*/
+
+
+    /*MAGIC METHODS______________________________________________________________________*/
+    public function __get($name)
+	{
+        try
+        {
+            return parent::__get($name);
+        }
+        catch (CException $e)
+        {
+            $method_name = StringHelper::underscoreToCamelcase($name);
+
+            if (method_exists($this, 'get' . ucfirst($method_name)))
+            {
+                return $this->$method_name;
+            }
+            else
+            {
+                $attr = StringHelper::camelCaseToUnderscore($name);
+                if (mb_substr($attr, 0, 4) == 'get_')
+                {
+                    $attr = mb_substr($attr, 4);
+                }
+
+                $attr = get_class($this) . '.' .$attr;
+
+
+                throw new CException('Не определено свойство ' . $attr);
+            }
+        }
+	}
+
+
+    public function __toString()
+    {
+        $attributes = array(
+            'name',
+            'title',
+            'description',
+            'id'
+        );
+
+        foreach ($attributes as $attribute)
+        {
+            if (array_key_exists($attribute, $this->attributes))
+            {
+                return $this->$attribute;
+            }
+        }
+    }
+    /*___________________________________________________________________________________*/
+
+
+    /*SCOPES_____________________________________________________________________________*/
+    public function scopes()
+    {
+        $alias = $this->getTableAlias();
+        return array(
+           'published' => array('condition' => $alias.'.is_published = 1'),
+           'ordered'   => array('order' => $alias.'.`order`'),
+           'last'      => array('order' => $alias.'.date_create DESC')
+        );
+    }
+
+
+	public function limit($num)
+	{
+	    $this->getDbCriteria()->mergeWith(array(
+	        'limit' => $num,
+	    ));
+
+	    return $this;
+	}
+
+
+	public function notEqual($param, $value)
+	{
+	    $this->getDbCriteria()->mergeWith(array(
+	        'condition' => "`{$param}` != '{$value}'",
+	    ));
+
+	    return $this;
+	}
+
+
+    /*___________________________________________________________________________________*/
+
+
+    public function meta()
+    {
+        $meta = Yii::app()->db
+                          ->cache(1000)
+                          ->createCommand("SHOW FUll columns FROM " . $this->tableName())
+                          ->queryAll();
+        
+        foreach ($meta as $ind => $field_data)
+        {
+            $meta[$field_data["Field"]] = $field_data;
+            unset($meta[$ind]);
+        }
+      
+        return $meta;
+    }
+
+    
+    public function changeOrder($id, $order)
+    {
+        $sql = "SELECT COUNT(id) AS count_ids
+                       FROM " . $this->tableName() . "
+                       GROUP BY `order` HAVING count_ids > 1";
+
+        $need_fix_table = Yii::app()->db->createCommand($sql)->execute();
+        if ($need_fix_table)
+        {
+            $sorted_objects = array();
+
+            $objects = $this->findAll(array('order' => '`order`'));
+            foreach ($objects as $ind => $object)
+            {
+                $object->order = $ind;
+                $object->save();
+            }
+        }
+
+        $object = $this->findByPk($id);
+        if (!$object)
+        {
+            return;
+        }
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('id != ' . $object->id);
+
+        if ($object->parent_id)
+        {
+            $criteria->addCondition('parent_id = ' . $object->parent_id);
+        }
+        else
+        {
+            $criteria->addCondition('parent_id IS NULL');
+        }
+
+        if ($order == 'up')
+        {
+            $criteria->addCondition('`order` < ' . $object->order);
+            $criteria->order = '`order` DESC';
+        }
+        else
+        {
+            $criteria->addCondition('`order` > ' . $object->order);
+            $criteria->order = '`order`';
+        }
+
+        $neighbor_object = $this->find($criteria);
+
+        if (!$neighbor_object)
+        {
+            return;
+        }
+
+        $object_order = $object->order;
+
+        $object->order = $neighbor_object->order;
+        $object->save(false);
+
+        $neighbor_object->order = $object_order;
+        $neighbor_object->save(false);
+
+        return true;
+    }
+
+
+    public function optionsTree($name = 'name', $id = null, $result = array(), $value = 'id', $spaces = 0, $parent_id = null)
+    {
+        $objects = $this->findAllByAttributes(array(
+            'parent_id' => $parent_id
+        ));
+
+        foreach ($objects as $object)
+        {
+            if ($object->id == $id) continue;
+
+            $result[$object->$value] = str_repeat("_", $spaces) . $object->$name;
+
+            if ($object->childs)
+            {
+                $spaces+=2;
+
+                $result = $this->optionsTree($name, $id, $result, $value, $spaces, $object->id);
+            }
+        }
+
+        return $result;
+    }
+}
