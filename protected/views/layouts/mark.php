@@ -92,13 +92,14 @@ strong{
 }
 
 table{
-    width:           400px;
+    width:           auto;
     border-collapse: collapse;
 }
 thead{
     background: #eee;
 }
 th{
+    padding:     2px 5px;
     text-align:  center;
     border:      1px solid #999;
     color:       #3C578C;
@@ -378,7 +379,7 @@ code{
     $conventions  = array(
         'Стандарты именования и кодирования'=> '/conventions/naming',
         'Структура директорий'              => '/conventions/directoryStructure',
-        'Написание основных компонентов' => '/conventions/mvc',
+        'Написание основных компонентов'    => '/conventions/mvc',
         'Совместная работа над проектом'    => '/conventions/cooperation',
     );
     $main_themes  = array(
@@ -425,6 +426,10 @@ code{
         'appManager' => '',
     );
     ksort($app_components);
+    $special = array(
+        'formWidgets'      => 'Виджеты для форм',
+    );
+    ksort($special);
 
     function show_menu($name, $data)
     {
@@ -434,7 +439,7 @@ code{
         {
             echo '<li>';
             $data = $val == '' ? array('class' => 'no-complete') : array();
-            echo CHtml::link($key, '/index.php'.$val, $data);
+            echo CHtml::link($key, '/index.php' . $val, $data);
             echo '</li>';
         }
         echo '</ul>';
@@ -459,6 +464,7 @@ code{
                 </td>
                 <td class="sep">
                     <?php show_menu('Вспомогательные классы', $helpers) ?>
+                    <?php show_menu('Специальные темы', $special) ?>
                 </td>
             </tr>
             </tbody>
