@@ -414,8 +414,6 @@ code{
     ksort($helpers);
     $behaviors = array(
         'componentInModule' => '/behaviors/componentInModule',
-        'maxMin'            => '/behaviors/maxMin',
-        'upload'            => '/behaviors/upload',
         'metaTags'          => '/behaviors/metaTags',
     );
     ksort($behaviors);
