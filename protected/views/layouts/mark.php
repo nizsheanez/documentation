@@ -427,7 +427,7 @@ code{
     );
     ksort($app_components);
     $special = array(
-        'formWidgets'      => 'Виджеты для форм',
+        'Виджеты для форм' => '/special/formWidgets',
     );
     ksort($special);
 
