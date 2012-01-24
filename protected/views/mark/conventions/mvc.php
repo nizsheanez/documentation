@@ -63,7 +63,7 @@ const GENDER_WOMAN = "woman";
 const MAX_AGE = 80;`
 - Если предусмотрен адрес просмотра, редактирования объекта модели,
     то во View не дублируется адрес, а модель должна содержать
-    метод `getUrl, getUpdateUrl, getDeleteUrl.`
+    метод `getHref, getUpdateHref, getDeleteHref.`
 
 
 

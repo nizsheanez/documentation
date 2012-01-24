@@ -33,7 +33,7 @@ body{
     font:       normal 10pt Arial, Helvetica, sans-serif;
     background: #fff;
     color:      #555;
-    text-align: center;
+    text-align: left;
 }
 
 a, a:visited{
@@ -172,16 +172,19 @@ div.image > p{
 
 #content li{
     line-height: 160%;
+    text-align: left;
 }
 
 #content ul li ul{
     list-style-type: none;
     margin:          0 0 0 20px;
+
 }
 
 #content ul, #content ol{
     margin: 0 0 1em 2em;
-}
+    padding: 0;
+   }
 
 #content ul p, #content ol p{
     display: inline;
@@ -214,7 +217,7 @@ pre{
 
 code{
     border-bottom: 1px dotted #ccc;
-    color:         #666;
+    color:         #555;
     font-size:     10pt;
     font-family:   Consolas, "Courier New", Courier, monospace;
     line-height:   130%;

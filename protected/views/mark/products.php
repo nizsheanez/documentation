@@ -12,12 +12,6 @@
 - Producer - Производители
 - ProductVariant - Варианты товара (например размеры у одежды), каждый вариант имеет свою цену.
 
-**Пояснения к моделям**
-
-В корзину ложится именно модель ProductVariant - т.к. она имеет цену.
-
-Каждый товар может принадлежать сразу нескольким категориям Many_Many
-
 **Metadata**
 
 - `public static function constructValidators($categories = null, $metadatas = null)`
@@ -270,4 +264,8 @@ public function beforeDelete()
 Подробно компонент cart рассмотрен [здесь](http://yiiext.github.com/extensions/shopping-cart-component/readme.ru.html)
 
 
+**Пояснения к моделям**
 
+В корзину ложится именно модель ProductVariant - т.к. она имеет цену.
+
+Каждый товар может принадлежать сразу нескольким категориям Many_Many

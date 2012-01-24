@@ -62,7 +62,7 @@ return array(
 //                'class'=>'CLogRouter',
 //                'routes'=>array(
 //                    array(
-//                        'class'        => 'DbLogRoute',
+//                      db  'class'        => 'DbLogRoute',
 //                        'levels'       => 'error, warning, info',
 //                        'connectionID' => 'db',
 //                        'logTableName' => 'log',
