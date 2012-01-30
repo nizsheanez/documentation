@@ -1,18 +1,25 @@
 #Виджеты для форм:
 
+Все виджеты для форм находятся в директории `application.components.formWidgets`
+
 ##Список алиасов
+
+Списоки алиасов ядра прописываются в файлах: `AdminFormInputElement` и `ClientFormInputElement`
 
 Алиас используемый в форме | Реальный виджет
 ---------------------------|---------------------------------------------
-`checkbox`                 | `main.components.IphoneCheckbox`
-`multi_select`             | `ext.emultiselect.EMultiSelect`
-`multi_autocomplete`       | `main.components.MultiAutocomplete`
-`alias`                    | `main.components.AliasField`
-`chosen`                   | `dropdownlist`
-`date`                     | `ext.jui.FJuiDatePicker`
-`editor`                   | `ext.tiny_mce.TinyMCE`
-`autocomplete`             | `CAutoComplete`
+`checkbox`                 | `IphoneCheckbox`
+`alias`                    | `AliasField`
+`captcha`                  | `Captcha`
+`all_in_one_input`         | `EMultiSelect`
+`multi_select`             | `AllInOneInput`
+`multi_autocomplete`       | `MultiAutocomplete`
+`date`                     | `FJuiDatePicker`
+`editor`                   | `TinyMCE`
+`autocomplete`             | `zii.widgets.jui.CAutoComplete`
+`meta_tags`                | `main.portlets.MetaTags`
 `file_manager`             | `fileManager.portlets.Uploader`
+
 
 ##Общий список виджетов
 
@@ -27,7 +34,7 @@
 `editor`                            | Редактор текста
 `autocomplete`                      | `jQuery.UI.Autocomplete`
 `file_manager`                      | Загрузка серии файлов
-`main.components.AllInOneInput`     | Редактирование текстовой информации с разделителями(например ';')
+`all_in_one_input`                  | Редактирование текстовой информации с разделителями(например ';')
 `main.portlets.MetaTags`            | Добавление метатегов к записям
 
 
@@ -72,8 +79,8 @@
 [php]
 'categories' => array(
     'type'     => 'multi_select',
-    'selected'     => 'all_relevant_products',
-    'url'          => '/products/productAdmin/productsAsJson'
+    'selected' => 'all_relevant_products',
+    'url'      => '/products/productAdmin/productsAsJson'
 ),
 ~~~
 
@@ -87,7 +94,8 @@
     'type'     => 'multi_select',
     'items'    => CHtml::listData(Category::getRoot()->descendants()->findAll(), 'id', 'nbspTitle'),
     'onchange' => "js:function() { alert(3); }",
-    'hint'     => 'Список категорий к которым будет принадлежать товар. <br/>Внимание! Дополнительные свойства товара, зависят от того в какой категории он находится, поэтому при изменении этого параметра форма автоматически будет перестроена в соответствии с новыми настройками. По этой причине, при изменении данного параметра он будет сохранен автоматически и кнопка "Отмена" не вернет данный параметр к исходному состоянию.'
+    'hint'     => 'Список категорий к которым будет принадлежать товар.
+        <br/>Внимание! Дополнительные свойства товара, зависят от того в какой категории он находится, поэтому при изменении этого параметра форма автоматически будет перестроена в соответствии с новыми настройками. По этой причине, при изменении данного параметра он будет сохранен автоматически и кнопка "Отмена" не вернет данный параметр к исходному состоянию.'
 ),
 ~~~
 
