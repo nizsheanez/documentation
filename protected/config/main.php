@@ -1,51 +1,48 @@
 <?php
 
 return array(
-    'language' => 'ru',
-	'basePath' => dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'     => '',
+    'language'   => 'ru',
+    'basePath'   => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
+    'name'       => '',
 
-	'preload'=>array('log'),
+    'preload'    => array('log'),
 
-	'import'=> array_merge(
-        array(
-            'application.components.*',
-            'application.components.zii.*',
-            'application.components.formElements.*',
-            'application.libs.tools.*',
+    'import'     => array_merge(array(
+            'application.components.*', 'application.components.zii.*',
+            'application.components.formElements.*', 'application.libs.tools.*',
             'ext.yiiext.filters.setReturnUrl.ESetReturnUrlFilter',
             'application.modules.srbac.controllers.SBaseController',
-	    )
-    ),
+        )),
 
-	'components' => array(
-        'session' => array(
+    'components' => array(
+        'session'      => array(
             'autoStart'=> true
         ),
-		'user' => array(
-			'allowAutoLogin' => true,
+        'user'         => array(
+            'allowAutoLogin' => true,
             'class'          => 'WebUser'
-		),
-		'image' => array(
-          'class'  => 'application.extensions.image.CImageComponent',
-          'driver' => 'GD'
         ),
-        'dater' => array(
+        'image'        => array(
+            'class'  => 'application.extensions.image.CImageComponent',
+            'driver' => 'GD'
+        ),
+        'dater'        => array(
             'class' => 'application.components.DaterComponent'
         ),
-        'text' => array(
+        'text'         => array(
             'class' => 'application.components.TextComponent'
         ),
-		'urlManager' => array(
-			'urlFormat'      => 'path',
+        'urlManager'   => array(
+            'urlFormat'      => 'path',
             'showScriptName' => false,
-			'rules' => array(
-                '<view>' => 'mark/index',
+            'rules'          => array(
+                ''                => "mark/index/view/site",
+                '<view>'          => 'mark/index',
                 '<folder>/<view>' => 'mark/index',
-			),
-		),
+            ),
+        ),
 
-		'errorHandler' => array(
+        'errorHandler' => array(
             'errorAction' => 'mark/error',
         ),
 
@@ -71,7 +68,7 @@ return array(
 //                ),
 //        ),
 
-        'preload'=>array('log'),
+        'preload'      => array('log'),
 
 //        'log'=>array(
 //            'class'=>'CLogRouter',
@@ -83,12 +80,12 @@ return array(
 //                ),
 //            ),
 //        ),
-	),
+    ),
 
-	'params'=>array(
-		'adminEmail'=>'artem-moscow@yandex.ru.com',
-	),
+    'params'     => array(
+        'adminEmail'=> 'artem-moscow@yandex.ru.com',
+    ),
 
-    'language' => 'ru',
+    'language'   => 'ru',
 );
 

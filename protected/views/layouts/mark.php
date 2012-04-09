@@ -373,12 +373,6 @@ code{
 </script>
 <div>
     <?php
-    $introduction = array(
-        'О главном'                  => '',
-        'Требования к серверу'       => '',
-        'Лог изменений'              => '',
-        'Разработчики'               => '',
-    );
     $conventions  = array(
         'Стандарты именования и кодирования'=> '/conventions/naming',
         'Структура директорий'              => '/conventions/directoryStructure',
@@ -386,11 +380,7 @@ code{
         'Совместная работа над проектом'    => '/conventions/cooperation',
     );
     $main_themes  = array(
-        'Установка'         => '',
         'ActiveRecordModel' => '/mainThemes/activeRecordModel',
-        'BaseController'    => '',
-        'AdminController'   => '',
-        'DbLogRoute'        => '',
         'GridView'          => '/mainThemes/gridView',
     );
     $modules      = array(
@@ -399,22 +389,9 @@ code{
         'products - Каталог продуктов'   => '/products',
         'orders - Заказы'                => '/orders',
         'fileManager - Файловый менеджер'=> '/fileManager',
-        'rbac'                           => '/rbac',
-        'faq'                            => '',
         'glossary'                       => '/glossary',
-        'users'                          => '',
-        'geo'                            => '',
-        'mailer - Отправка почты'        => '',
     );
     ksort($modules);
-    $helpers = array(
-        'ImageHelper'      => '',
-        'ArrayHelper'      => '',
-        'FileSystem'       => '',
-        'PasswordGenerator'=> '',
-        'StringHelper'     => '',
-    );
-    ksort($helpers);
     $behaviors = array(
         'componentInModule' => '/behaviors/componentInModule',
         'metaTags'          => '/behaviors/metaTags',
@@ -424,7 +401,6 @@ code{
     $app_components = array(
         'dater'      => '/applicationComponents/dater',
         'text'       => '/applicationComponents/text',
-        'appManager' => '',
     );
     ksort($app_components);
     $special = array(
@@ -452,7 +428,6 @@ code{
             <tbody>
             <tr>
                 <td>
-                    <?php show_menu('Введение', $introduction) ?>
                     <?php show_menu('Соглашения', $conventions) ?>
                 </td>
                 <td class="sep">
@@ -464,7 +439,6 @@ code{
                     <?php show_menu('Модули', $modules) ?>
                 </td>
                 <td class="sep">
-                    <?php show_menu('Вспомогательные классы', $helpers) ?>
                     <?php show_menu('Специальные темы', $special) ?>
                 </td>
             </tr>
